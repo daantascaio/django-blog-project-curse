@@ -1,0 +1,72 @@
+{
+    "editor.fontSize": 14,
+    //"editor.lineHeight": 22,
+    "workbench.startupEditor": "none",
+    "explorer.compactFolders": false,
+    "editor.rulers": [120, 120],
+    "workbench.preferredDarkColorTheme": "Visual Studio Dark",
+    "workbench.preferredHighContrastLightColorTheme": "Default High Contrast",
+    "workbench.preferredLightColorTheme": "Default High Contrast",
+    "workbench.tree.indent": 8,
+    //"workbench.colorTheme": "Evondev Dracula Darker Contrast",
+    "git.autofetch": true,
+    "git.openRepositoryInParentFolders": "never",
+    "hediet.vscode-drawio.resizeImages": null,
+    "editor.fontFamily": "Operator Mono Lig, 'Fira Code', Consolas, 'Dank Mono', 'Source Code Pro', Menlo, 'Inconsolata', 'Droid Sans Mono', 'DejaVu Sans Mono', 'Ubuntu Mono', 'Courier New', Courier, Monaco, monospace",
+    "terminal.integrated.fontFamily": "",
+    "editor.fontLigatures": true,
+  
+    // Configurações do Code Runner (NÃO USO MAIS)
+    "code-runner.executorMap": {
+      "python": "cls;python -u",
+    },
+    "code-runner.runInTerminal": true,
+    "code-runner.ignoreSelection": true,
+  
+    // Configurações de Tema
+    "workbench.iconTheme": "material-icon-theme",
+    "workbench.colorCustomizations": {
+      //"tab.activeBackground": "#000000",
+      //"activityBar.background": "#000000",
+     // "sideBar.background": "#000000",
+     // "editor.background": "#000000",
+      //"statusBar.background": "#000000",
+  
+      // Configurações de Tema - Terminal
+      //"terminal.background": "#000000"
+    }, 
+  
+    // Outras configurações globais
+    "editor.renderWhitespace": "all",
+    "workbench.editorAssociations": {
+      "*.html": "default"
+    },
+  
+    // Configurações Python
+    "[python]": {
+      "editor.defaultFormatter": "ms-python.autopep8",
+      "editor.tabSize": 4,
+      "editor.insertSpaces": true,
+      "editor.formatOnSave": true,
+      "editor.codeActionsOnSave": {
+        "source.fixAll": true,
+        "source.fixAll.unusedImports": true,
+        "source.organizeImports": true
+      }
+    },
+    "python.languageServer": "Pylance",
+    "python.testing.unittestEnabled": false,
+    "python.testing.pytestEnabled": true,
+    "python.analysis.diagnosticSeverityOverrides": {
+      "reportUnknownMemberType": "none",
+      "reportUnknownArgumentType": "none",
+      "reportUnknownVariableType": "none",
+      "reportUnknownLambdaType": "none",
+      "reportUnknownParameterType": "none"
+    },
+    "python.analysis.typeCheckingMode": "basic",
+    "cSpell.enabled": true,
+    "workbench.colorTheme": "GitHub Dark",
+    "window.zoomLevel": -1,
+    //"python.formatting.provider": "none"
+  }
