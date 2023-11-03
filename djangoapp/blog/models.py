@@ -1,8 +1,8 @@
 from django.contrib.auth.models import User
 from django.db import models
-from utils.rands import slugify_new
-from utils.images import resize_image
 from django_summernote.models import AbstractAttachment
+from utils.images import resize_image
+from utils.rands import slugify_new
 
 
 class PostAttachment(AbstractAttachment):
@@ -10,15 +10,15 @@ class PostAttachment(AbstractAttachment):
         if not self.name:
             self.name = self.file.name
 
-        current_image_name = str(self.image.name)
+        current_file_name = str(self.file.name)
         super_save = super().save(*args, **kwargs)
-        image_changed = False
+        file_changed = False
 
-        if self.image:
-            image_changed = current_image_name != self.image.name
+        if self.file:
+            file_changed = current_file_name != self.file.name
 
-        if image_changed:
-            resize_image(self.image, 900)
+        if file_changed:
+            resize_image(self.file, 900, True, 70)
 
         return super_save
 
@@ -87,18 +87,24 @@ class Page(models.Model):
         return self.title
 
 
+class PostManager(models.Manager):
+    def get_published(self):
+        return self\
+            .filter(is_published=True)\
+            .order_by('-pk')
+
+
 class Post(models.Model):
     class Meta:
         verbose_name = 'Post'
         verbose_name_plural = 'Posts'
 
+    objects = PostManager()
+
     title = models.CharField(max_length=65,)
     slug = models.SlugField(
-        unique=True,
-        default="",
-        null=False,
-        blank=True,
-        max_length=255
+        unique=True, default="",
+        null=False, blank=True, max_length=255
     )
     excerpt = models.CharField(max_length=150)
     is_published = models.BooleanField(
@@ -109,11 +115,7 @@ class Post(models.Model):
         ),
     )
     content = models.TextField()
-    cover = models.ImageField(
-        upload_to='posts/%Y/%m/',
-        blank=True,
-        default=''
-    )
+    cover = models.ImageField(upload_to='posts/%Y/%m/', blank=True, default='')
     cover_in_post_content = models.BooleanField(
         default=True,
         help_text='Se marcado, exibirá a capa dentro do post.',
@@ -123,8 +125,7 @@ class Post(models.Model):
     created_by = models.ForeignKey(
         User,
         on_delete=models.SET_NULL,
-        blank=True,
-        null=True,
+        blank=True, null=True,
         related_name='post_created_by'
     )
     updated_at = models.DateTimeField(auto_now=True)
@@ -132,22 +133,14 @@ class Post(models.Model):
     updated_by = models.ForeignKey(
         User,
         on_delete=models.SET_NULL,
-        blank=True,
-        null=True,
+        blank=True, null=True,
         related_name='post_updated_by'
     )
     category = models.ForeignKey(
-        Category,
-        on_delete=models.SET_NULL,
-        null=True,
-        blank=True,
+        Category, on_delete=models.SET_NULL, null=True, blank=True,
         default=None,
     )
-    tags = models.ManyToManyField(
-        Tag,
-        blank=True,
-        default=''
-    )
+    tags = models.ManyToManyField(Tag, blank=True, default='')
 
     def __str__(self):
         return self.title
@@ -164,6 +157,6 @@ class Post(models.Model):
             cover_changed = current_cover_name != self.cover.name
 
         if cover_changed:
-            resize_image(self.cover, 900)
+            resize_image(self.cover, 900, True, 70)
 
         return super_save
