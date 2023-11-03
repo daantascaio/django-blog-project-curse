@@ -2,6 +2,25 @@ from django.contrib.auth.models import User
 from django.db import models
 from utils.rands import slugify_new
 from utils.images import resize_image
+from django_summernote.models import AbstractAttachment
+
+
+class PostAttachment(AbstractAttachment):
+    def save(self, *args, **kwargs):
+        if not self.name:
+            self.name = self.file.name
+
+        current_image_name = str(self.image.name)
+        super_save = super().save(*args, **kwargs)
+        image_changed = False
+
+        if self.image:
+            image_changed = current_image_name != self.image.name
+
+        if image_changed:
+            resize_image(self.image, 900)
+
+        return super_save
 
 
 class Tag(models.Model):
